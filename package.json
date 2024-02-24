@@ -3,7 +3,7 @@
     "displayName": "Debugpy Old",
     "description": "Python Debugger extension using `debugpy` for python <= 3.6.",
     "version": "2023.1.12492010",
-    "publisher": "adam-a",
+    "publisher": "atariq11700",
     "license": "MIT",
     "homepage": "https://github.com/Microsoft/vscode-python-debugger",
     "repository": {
