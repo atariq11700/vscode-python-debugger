@@ -2,121 +2,20 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import TelemetryReporter from '@vscode/extension-telemetry';
 
-import { AppinsightsKey, isTestExecution } from '../common/constants';
 import { StopWatch } from '../common/utils/stopWatch';
 import { ConsoleType, TriggerType } from '../types';
 import { DebugConfigurationType } from '../debugger/types';
 import { EventName } from './constants';
 import { isPromise } from '../common/utils/async';
 
-/**
- * Checks whether telemetry is supported.
- * Its possible this function gets called within Debug Adapter, vscode isn't available in there.
- * Within DA, there's a completely different way to send telemetry.
- * @returns {boolean}
- */
-function isTelemetrySupported(): boolean {
-    try {
-        const vsc = require('vscode');
-        const reporter = require('@vscode/extension-telemetry');
-
-        return vsc !== undefined && reporter !== undefined;
-    } catch {
-        return false;
-    }
-}
-
-const sharedProperties: Record<string, unknown> = {};
-
-let telemetryReporter: TelemetryReporter | undefined;
-function getTelemetryReporter() {
-    if (!isTestExecution() && telemetryReporter) {
-        return telemetryReporter;
-    }
-
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const Reporter = require('@vscode/extension-telemetry').default as typeof TelemetryReporter;
-    telemetryReporter = new Reporter(AppinsightsKey, [
-        {
-            lookup: /(errorName|errorMessage|errorStack)/g,
-        },
-    ]);
-
-    return telemetryReporter;
-}
-
-export function clearTelemetryReporter(): void {
-    telemetryReporter = undefined;
-}
 
 export function sendTelemetryEvent<P extends IEventNamePropertyMapping, E extends keyof P>(
-    eventName: E,
-    measuresOrDurationMs?: Record<string, number> | number,
-    properties?: P[E],
-    ex?: Error,
-): void {
-    if (isTestExecution() || !isTelemetrySupported()) {
-        return;
-    }
-    const reporter = getTelemetryReporter();
-    const measures =
-        typeof measuresOrDurationMs === 'number'
-            ? { duration: measuresOrDurationMs }
-            : measuresOrDurationMs || undefined;
-    const customProperties: Record<string, string> = {};
-    const eventNameSent = eventName as string;
-
-    if (properties) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const data = properties as any;
-        Object.getOwnPropertyNames(data).forEach((prop) => {
-            if (data[prop] === undefined || data[prop] === null) {
-                return;
-            }
-            try {
-                // If there are any errors in serializing one property, ignore that and move on.
-                // Else nothing will be sent.
-                switch (typeof data[prop]) {
-                    case 'string':
-                        customProperties[prop] = data[prop];
-                        break;
-                    case 'object':
-                        customProperties[prop] = 'object';
-                        break;
-                    default:
-                        customProperties[prop] = data[prop].toString();
-                        break;
-                }
-            } catch (exception) {
-                console.error(`Failed to serialize ${prop} for ${String(eventName)}`, exception);
-            }
-        });
-    }
-
-    // Add shared properties to telemetry props (we may overwrite existing ones).
-    Object.assign(customProperties, sharedProperties);
-
-    if (ex) {
-        const errorProps = {
-            errorName: ex.name,
-            errorStack: ex.stack ?? '',
-        };
-        Object.assign(customProperties, errorProps);
-        reporter.sendTelemetryErrorEvent(eventNameSent, customProperties, measures);
-    } else {
-        reporter.sendTelemetryEvent(eventNameSent, customProperties, measures);
-    }
-
-    if (process.env && process.env.VSC_PYTHON_LOG_TELEMETRY) {
-        console.info(
-            `Telemetry Event : ${eventNameSent} Measures: ${JSON.stringify(measures)} Props: ${JSON.stringify(
-                customProperties,
-            )} `,
-        );
-    }
-}
+    _eventName: E,
+    _measuresOrDurationMs?: Record<string, number> | number,
+    _properties?: P[E],
+    _ex?: Error,
+): void { }
 
 // Type-parameterized form of MethodDecorator in lib.es5.d.ts.
 type TypedMethodDescriptor<T> = (
@@ -217,27 +116,11 @@ export function captureTelemetry<This, P extends IEventNamePropertyMapping, E ex
 
 // function sendTelemetryWhenDone<T extends IDSMappings, K extends keyof T>(eventName: K, properties?: T[K]);
 export function sendTelemetryWhenDone<P extends IEventNamePropertyMapping, E extends keyof P>(
-    eventName: E,
-    promise: Promise<unknown> | Thenable<unknown>,
-    stopWatch?: StopWatch,
-    properties?: P[E],
-): void {
-    stopWatch = stopWatch || new StopWatch();
-    if (typeof promise.then === 'function') {
-        (promise as Promise<unknown>).then(
-            (data) => {
-                sendTelemetryEvent(eventName, stopWatch!.elapsedTime, properties);
-                return data;
-            },
-            (ex) => {
-                sendTelemetryEvent(eventName, stopWatch!.elapsedTime, properties, ex);
-                return Promise.reject(ex);
-            },
-        );
-    } else {
-        throw new Error('Method is neither a Promise nor a Theneable');
-    }
-}
+    _eventName: E,
+    _promise: Promise<unknown> | Thenable<unknown>,
+    _stopWatch?: StopWatch,
+    _properties?: P[E],
+): void { }
 
 /**
  * Map all shared properties to their data types.

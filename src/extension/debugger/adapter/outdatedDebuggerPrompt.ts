@@ -39,7 +39,7 @@ class OutdatedDebuggerPrompt implements DebugAdapterTracker {
                         this.promptCheck.setShowPrompt(false);
                         return true;
                     }
-                    if (outputMessage.body.output === 'debugpy') {
+                    if (outputMessage.body.output === 'debugpy-old') {
                         this.promptCheck.setShowPrompt(false);
                     }
                 }

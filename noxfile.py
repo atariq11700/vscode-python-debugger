@@ -117,7 +117,7 @@ def install_bundled_libs(session):
     _install_bundle(session)
 
 
-@nox.session(python="3.6")
+@nox.session(python="3.7")
 def install_old_bundled_libs(session):
     """Installs the libraries that will be bundled with the extension."""
     session.install("wheel")

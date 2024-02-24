@@ -9,7 +9,7 @@ import { EXTENSION_ROOT_DIR } from '../../common/constants';
 import { fileToCommandArgumentForPythonExt } from '../../common/stringUtils';
 
 const pathToPythonLibDir = path.join(EXTENSION_ROOT_DIR, 'pythonFiles', 'lib', 'python');
-const pathToDebugger = path.join(pathToPythonLibDir, 'debugpy');
+const pathToDebugger = path.join(pathToPythonLibDir, 'debugpy-old');
 
 type RemoteDebugOptions = {
     host: string;

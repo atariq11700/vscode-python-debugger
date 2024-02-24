@@ -1,9 +1,9 @@
 {
-    "name": "debugpy",
-    "displayName": "Debugpy",
-    "description": "Python Debugger extension using `debugpy`.",
-    "version": "2023.1.0-dev",
-    "publisher": "ms-python",
+    "name": "debugpy-old",
+    "displayName": "Debugpy Old",
+    "description": "Python Debugger extension using `debugpy` for python <= 3.6.",
+    "version": "2023.1.12492010",
+    "publisher": "adam-a",
     "license": "MIT",
     "homepage": "https://github.com/Microsoft/vscode-python-debugger",
     "repository": {
@@ -14,11 +14,6 @@
         "url": "https://github.com/Microsoft/vscode-python-debugger/issues"
     },
     "icon": "icon.png",
-    "keywords": [
-        "python",
-        "debugger",
-        "debugpy"
-    ],
     "engines": {
         "vscode": "^1.78.0"
     },
@@ -27,8 +22,8 @@
     ],
     "activationEvents": [
         "onDebugInitialConfigurations",
-        "onDebugDynamicConfigurations:debugpy",
-        "onDebugResolve:debugpy",
+        "onDebugDynamicConfigurations:debugpy-old",
+        "onDebugResolve:debugpy-old",
         "onLanguage:python"
     ],
     "main": "./dist/extension.js",
@@ -36,43 +31,43 @@
     "contributes": {
         "commands": [
             {
-                "category": "Debugpy",
-                "command": "debugpy.debugInTerminal",
+                "category": "Debugpy Old",
+                "command": "debugpy-old.debugInTerminal",
                 "icon": "$(debug-alt)",
-                "title": "%debugpy.command.debugInTerminal.title%"
+                "title": "%debugpy-old.command.debugInTerminal.title%"
             },
             {
-                "category": "Debugpy",
-                "command": "debugpy.clearCacheAndReload",
-                "title": "%debugpy.command.clearCacheAndReload.title%"
+                "category": "Debugpy Old",
+                "command": "debugpy-old.clearCacheAndReload",
+                "title": "%debugpy-old.command.clearCacheAndReload.title%"
             },
             {
-                "category": "Debugpy",
-                "command": "debugpy.viewOutput",
+                "category": "Debugpy Old",
+                "command": "debugpy-old.viewOutput",
                 "icon": {
                     "dark": "resources/dark/repl.svg",
                     "light": "resources/light/repl.svg"
                 },
-                "title": "%debugpy.command.viewOutput.title%"
+                "title": "%debugpy-old.command.viewOutput.title%"
             }
         ],
         "menus": {
             "commandPalette": [
                 {
-                    "category": "Debugpy",
-                    "command": "debugpy.clearCacheAndReload",
-                    "title": "%debugpy.command.clearCacheAndReload.title%"
+                    "category": "Debugpy Old",
+                    "command": "debugpy-old.clearCacheAndReload",
+                    "title": "%debugpy-old.command.clearCacheAndReload.title%"
                 },
                 {
-                    "category": "Debugpy",
-                    "command": "debugpy.debugInTerminal",
+                    "category": "Debugpy Old",
+                    "command": "debugpy-old.debugInTerminal",
                     "icon": "$(debug-alt)",
-                    "title": "%debugpy.command.debugInTerminal.title%"
+                    "title": "%debugpy-old.command.debugInTerminal.title%"
                 },
                 {
-                    "category": "Debugpy",
-                    "command": "debugpy.viewOutput",
-                    "title": "%debugpy.command.viewOutput.title%"
+                    "category": "Debugpy Old",
+                    "command": "debugpy-old.viewOutput",
+                    "title": "%debugpy-old.command.viewOutput.title%"
                 }
             ]
         },
@@ -419,14 +414,14 @@
                     }
                 },
                 "configurationSnippets": [],
-                "label": "Debugpy",
+                "label": "Debugpy Old",
                 "languages": [
                     "python"
                 ],
-                "type": "debugpy",
+                "type": "debugpy-old",
                 "variables": {
-                    "pickProcess": "debugpy.pickLocalProcess",
-                    "pickArgs": "debugpy.pickArgs"
+                    "pickProcess": "debugpy-old.pickLocalProcess",
+                    "pickArgs": "debugpy-old.pickArgs"
                 },
                 "when": "!virtualWorkspace && shellExecutionSupported"
             }
@@ -437,14 +432,7 @@
         "compile": "webpack",
         "watch": "webpack --watch",
         "package": "webpack --mode production --devtool hidden-source-map",
-        "compile-tests": "tsc -p . --outDir out",
-        "watch-tests": "tsc -p . -w --outDir out",
-        "pretest": "npm run compile-tests && npm run compile && npm run lint",
-        "lint": "eslint src --ext ts",
-        "format-check": "prettier --check 'src/**/*.ts' 'build/**/*.yml' '.github/**/*.yml'",
-        "format-fix": "prettier --write 'src/**/*.ts' 'build/**/*.yml' '.github/**/*.yml'",
-        "test": "node ./out/test/runTest.js",
-        "vsce-package": "vsce package -o pyhton-debugger.vsix"
+        "vsce-package": "vsce package -o python-debugger-old-dev.vsix"
     },
     "devDependencies": {
         "@types/chai": "^4.3.4",

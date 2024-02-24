@@ -12,7 +12,7 @@ export const BUNDLED_PYTHON_SCRIPTS_DIR = path.join(EXTENSION_ROOT_DIR, 'bundled
 export const SERVER_SCRIPT_PATH = path.join(BUNDLED_PYTHON_SCRIPTS_DIR, 'tool', `server.py`);
 export const DEBUG_SERVER_SCRIPT_PATH = path.join(BUNDLED_PYTHON_SCRIPTS_DIR, 'tool', `_debug_server.py`);
 
-export const AppinsightsKey = '0c6ae279ed8443289764825290e4f9e2-1a736e7c-1324-4338-be46-fc2a58ae4d14-7255';
+export const AppinsightsKey = '';
 
 export function isTestExecution(): boolean {
     return process.env.VSC_PYTHON_CI_TEST === '1' || isUnitTestExecution();
@@ -29,15 +29,15 @@ export function isUnitTestExecution(): boolean {
 }
 
 export namespace Commands {
-    export const Debug_In_Terminal = 'debugpy.debugInTerminal';
-    export const TriggerEnvironmentSelection = 'debugpy.triggerEnvSelection';
-    export const PickLocalProcess = 'debugpy.pickLocalProcess';
-    export const PickArguments = 'debugpy.pickArgs';
-    export const ViewOutput = 'debugpy.viewOutput';
-    export const ClearStorage = 'debugpy.clearCacheAndReload';
-    export const Enable_SourceMap_Support = 'debugpy.enableSourceMapSupport';
-    export const SelectDebugConfig = 'debugpy.SelectAndInsertDebugConfiguration';
-    export const Set_Interpreter = 'python.setInterpreter';
+    export const Debug_In_Terminal = 'debugpy-old.debugInTerminal';
+    export const TriggerEnvironmentSelection = 'debugpy-old.triggerEnvSelection';
+    export const PickLocalProcess = 'debugpy-old.pickLocalProcess';
+    export const PickArguments = 'debugpy-old.pickArgs';
+    export const ViewOutput = 'debugpy-old.viewOutput';
+    export const ClearStorage = 'debugpy-old.clearCacheAndReload';
+    export const Enable_SourceMap_Support = 'debugpy-old.enableSourceMapSupport';
+    export const SelectDebugConfig = 'debugpy-old.SelectAndInsertDebugConfiguration';
+    export const Set_Interpreter = 'python-old.setInterpreter';
 }
 
 export type Channel = 'stable' | 'insiders';
